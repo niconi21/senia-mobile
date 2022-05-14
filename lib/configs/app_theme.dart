@@ -14,15 +14,17 @@ class AppTheme {
   static const Color unselectedColor = Color.fromARGB(255, 72, 73, 73);
   static const Color backgroundColor = Color.fromARGB(255, 254, 240, 203);
 
+  static const double elevation = 10;
+
   static final theme = ThemeData(
     primarySwatch: primaryColorSwatch,
     primaryColor: primaryColor,
-    floatingActionButtonTheme: FloatingActionButtonThemeData(elevation: 0),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(elevation: elevation),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         primary: accentColor,
         shape: const StadiumBorder(),
-        elevation: 10,
+        elevation: elevation,
         textStyle: TextStyle(
           color: Colors.black,
           fontSize: 16,
@@ -30,5 +32,6 @@ class AppTheme {
         ),
       ),
     ),
+    
   );
 }

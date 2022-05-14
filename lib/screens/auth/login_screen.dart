@@ -69,8 +69,10 @@ class _LoginForm extends StatelessWidget {
                       FocusScope.of(context).unfocus();
                       if (!formProvider.isValidFrom()) return;
                       formProvider.isLoading = true;
-                      await Future.delayed(Duration(seconds: 5));
+                      await Future.delayed(Duration(seconds: 2));
                       formProvider.isLoading = false;
+                      Navigator.popAndPushNamed(
+                          context, AppRoutes.routesApp['home']!.route);
                     }
                   : () {
                       formProvider.isLoading = false;
