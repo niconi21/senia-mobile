@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:senia_app/configs/app_routes.dart';
 import 'package:senia_app/configs/app_theme.dart';
 import 'package:senia_app/providers/providers.dart';
 import 'package:senia_app/screens/user/user_screen.dart';
@@ -33,7 +34,8 @@ class _HomeFloatingActionsButtons extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         FloatingActionButton(
-          onPressed: () => print('capure pics'),
+          heroTag: 'RegisterLetter',
+          onPressed: () => Navigator.pushNamed(context, AppRoutes.routesApp['registerLetter']!.route),
           child: Icon(Icons.add_a_photo),
           tooltip: "Agregar datos",
           backgroundColor: AppTheme.unselectedColor,
@@ -42,7 +44,8 @@ class _HomeFloatingActionsButtons extends StatelessWidget {
           width: 10,
         ),
         FloatingActionButton(
-          onPressed: () => print('read lsm'),
+          heroTag: 'ReadLsm',
+          onPressed: () => Navigator.pushNamed(context, AppRoutes.routesApp['lsm']!.route),
           child: Icon(Icons.camera),
           tooltip: "Leer Lenguaje de Señas",
           backgroundColor: AppTheme.secondaryColor,

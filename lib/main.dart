@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:senia_app/configs/app_theme.dart';
@@ -5,7 +6,12 @@ import 'package:senia_app/providers/providers.dart';
 
 import 'configs/app_routes.dart';
 
-void main() => runApp(MyApp());
+List<CameraDescription> cameras = [];
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  cameras = await availableCameras();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override

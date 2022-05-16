@@ -16,7 +16,7 @@ class UiProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  String _homePageName = StringScreens.homeScreenName;
+  String _homePageName = StringScreens.lettersScreenName;
   String get homePageName => _homePageName;
   set homePageName(String value) {
     _homePageName = value;

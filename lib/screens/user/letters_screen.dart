@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:senia_app/configs/app_routes.dart';
 import 'package:senia_app/configs/app_theme.dart';
 
 class LetterScreen extends StatelessWidget {
@@ -23,7 +24,6 @@ class LetterScreen extends StatelessWidget {
         _ItemListLetter(image: 'assets/logo.png', letter: 'L', percentaje: 10),
         _ItemListLetter(image: 'assets/logo.png', letter: 'M', percentaje: 10),
         _ItemListLetter(image: 'assets/logo.png', letter: 'N', percentaje: 10),
-        
       ],
     );
   }
@@ -56,7 +56,8 @@ class _ItemListLetter extends StatelessWidget {
           ),
           trailing: Icon(Icons.keyboard_arrow_right),
           title: Text('Letra $letter - $percentaje% registrado'),
-          onTap: () {},
+          onTap: () => Navigator.pushNamed(
+              context, AppRoutes.routesApp['letterDescription']!.route),
         ),
       ),
     );

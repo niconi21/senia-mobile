@@ -3,12 +3,14 @@ import 'package:senia_app/models/models.dart';
 import 'package:senia_app/screens/screens.dart';
 
 class AppRoutes {
-  static final initialRoute = 'home';
+  static final initialRoute = 'auth';
 
   static final Map<String, MenuItemModel> routesApp = {
     "home": MenuItemModel(route: 'home', widget: HomeScreen()),
     "auth": MenuItemModel(route: 'auth', widget: AuthHomeScreen()),
-    "lsm": MenuItemModel(route: 'lsm', widget: LsmHomeScreen()),
+    "lsm": MenuItemModel(route: 'lsm', widget: ReadLsmScreen()),
+    "registerLetter": MenuItemModel(route: 'registerLetter', widget: RegisterLetterScreen()),
+    "letterDescription": MenuItemModel(route: 'letterDescription', widget: LetterDescriptionScreen()),
   };
 
   static Map<String, Widget Function(BuildContext)> getRoutesApp() {
