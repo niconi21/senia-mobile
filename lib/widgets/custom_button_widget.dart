@@ -5,13 +5,15 @@ class CustomButtonWidget extends StatelessWidget {
   final String text;
   final void Function()? onPressed;
   final Color color;
+  final IconData? icon;
 
-  const CustomButtonWidget({
-    Key? key,
-    required this.text,
-    required this.onPressed,
-    this.color = AppTheme.accentColor,
-  }) : super(key: key);
+  const CustomButtonWidget(
+      {Key? key,
+      required this.text,
+      required this.onPressed,
+      this.color = AppTheme.accentColor,
+      this.icon = Icons.touch_app})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,14 @@ class CustomButtonWidget extends StatelessWidget {
       width: double.infinity,
       child: ElevatedButton(
         onPressed: onPressed,
-        child: Text(text),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon),
+            SizedBox(width: 5),
+            Text(text),
+          ],
+        ),
         style: ElevatedButton.styleFrom(primary: color),
       ),
     );

@@ -19,7 +19,8 @@ class AppTheme {
   static final theme = ThemeData(
     primarySwatch: primaryColorSwatch,
     primaryColor: primaryColor,
-    floatingActionButtonTheme: FloatingActionButtonThemeData(elevation: elevation),
+    floatingActionButtonTheme:
+        FloatingActionButtonThemeData(elevation: elevation),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         primary: accentColor,
@@ -32,6 +33,15 @@ class AppTheme {
         ),
       ),
     ),
-    
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      backgroundColor: primaryColor,
+      selectedItemColor: secondaryColor,
+      showUnselectedLabels: false,
+      elevation: elevation,
+    ),
+    cardTheme: CardTheme(
+        elevation: elevation,
+        color: primaryColor,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
   );
 }

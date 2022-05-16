@@ -80,6 +80,7 @@ class _LoginForm extends StatelessWidget {
               color: !formProvider.isLoading
                   ? AppTheme.accentColor
                   : AppTheme.dangerColor,
+              icon: Icons.login,
             ),
           ],
         ),
@@ -103,6 +104,7 @@ class _LoginBtnRegister extends StatelessWidget {
           ? () => uiProvider.authPage = StringScreens.SingUpScreen
           : null,
       color: AppTheme.secondaryColor,
+      icon: Icons.app_registration,
     );
   }
 }

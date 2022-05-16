@@ -9,10 +9,17 @@ class UiProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  int _homePage = 0;
+  int _homePage = 1;
   int get homePage => _homePage;
   set homePage(int value) {
     _homePage = value;
+    notifyListeners();
+  }
+
+  String _homePageName = StringScreens.homeScreenName;
+  String get homePageName => _homePageName;
+  set homePageName(String value) {
+    _homePageName = value;
     notifyListeners();
   }
 }

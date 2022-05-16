@@ -113,6 +113,7 @@ class __SingUpFormState extends State<_SingUpForm> {
               color: !formProvider.isLoading
                   ? AppTheme.accentColor
                   : AppTheme.dangerColor,
+                  icon: Icons.create
             ),
           ],
         ),
@@ -131,11 +132,11 @@ class _SingUpBtnLogin extends StatelessWidget {
     final formProvider = Provider.of<FormGeneralProvider>(context);
     final uiProvider = Provider.of<UiProvider>(context);
     return CustomButtonWidget(
-      text: !formProvider.isLoading ? 'Iniciar sesión' : 'Cargando...',
-      onPressed: !formProvider.isLoading
-          ? () => uiProvider.authPage = StringScreens.LoginScreen
-          : null,
-      color: AppTheme.secondaryColor,
-    );
+        text: !formProvider.isLoading ? 'Iniciar sesión' : 'Cargando...',
+        onPressed: !formProvider.isLoading
+            ? () => uiProvider.authPage = StringScreens.LoginScreen
+            : null,
+        color: AppTheme.secondaryColor,
+        icon: Icons.login);
   }
 }
