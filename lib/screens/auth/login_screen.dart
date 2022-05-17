@@ -42,6 +42,9 @@ class _LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final formProvider = Provider.of<FormGeneralProvider>(context);
+    final userProvider = Provider.of<UserProvider>(context);
+    final letterProvider = Provider.of<LetterProvider>(context);
+
     return Form(
       key: formProvider.formKey,
       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -65,14 +68,23 @@ class _LoginForm extends StatelessWidget {
             CustomButtonWidget(
               text: !formProvider.isLoading ? 'Iniciar sesión' : 'Cancelar',
               onPressed: !formProvider.isLoading
-                  ? () async {
+                  ? () {
                       FocusScope.of(context).unfocus();
                       if (!formProvider.isValidFrom()) return;
                       formProvider.isLoading = true;
-                      await Future.delayed(Duration(seconds: 2));
-                      formProvider.isLoading = false;
-                      Navigator.popAndPushNamed(
-                          context, AppRoutes.routesApp['home']!.route);
+
+                      // await Future.delayed(Duration(seconds: 2));
+                      userProvider.login(formProvider.email).then((resp) {
+                        if (resp.ok) {
+                          letterProvider.getLetter();
+                          print('letras');
+                          Navigator.popAndPushNamed(
+                              context, AppRoutes.routesApp['home']!.route);
+                        } else {
+                          CustomAlerts.showAlert(
+                              context, 'Login Fallido', '${resp.message}');
+                        }
+                      }).whenComplete(() => formProvider.isLoading = false);
                     }
                   : () {
                       formProvider.isLoading = false;

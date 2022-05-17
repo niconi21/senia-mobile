@@ -12,6 +12,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final uiProvider = Provider.of<UiProvider>(context);
+    
     return Scaffold(
       appBar: AppBar(
         title: Text(uiProvider.homePageName),

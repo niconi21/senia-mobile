@@ -17,9 +17,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => UiProvider())],
+      providers: [
+        ChangeNotifierProvider(create: (_) => UiProvider()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (context) => LetterProvider(context: context)),
+      ],
       child: MaterialApp(
-        title: 'Material App',
+        title: 'Señia',
         routes: AppRoutes.getRoutesApp(),
         initialRoute: AppRoutes.initialRoute,
         theme: AppTheme.theme,

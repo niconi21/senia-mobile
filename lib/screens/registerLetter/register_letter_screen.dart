@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:senia_app/configs/app_theme.dart';
+import 'package:senia_app/providers/providers.dart';
+import 'package:senia_app/tools/calcs_tools.dart';
 import 'package:senia_app/widgets/custom_button_widget.dart';
 
 class RegisterLetterScreen extends StatelessWidget {
@@ -7,6 +10,8 @@ class RegisterLetterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final letterProvider = Provider.of<LetterProvider>(context);
+    final letters = CalcsTools.getLetters(letterProvider.letters);
     return Scaffold(
         appBar: AppBar(title: const Text('Registrar letras')),
         body: Container(

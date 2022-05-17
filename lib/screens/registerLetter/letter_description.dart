@@ -1,103 +1,71 @@
 import 'package:flutter/material.dart';
 import 'package:senia_app/configs/app_theme.dart';
+import 'package:senia_app/models/models.dart';
+import 'package:senia_app/tools/date_tools.dart';
+import 'package:senia_app/tools/tools.dart';
+import 'package:senia_app/widgets/custom_button_widget.dart';
 
 class LetterDescriptionScreen extends StatelessWidget {
   const LetterDescriptionScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final LetterModel letter =
+        ModalRoute.of(context)?.settings.arguments as LetterModel;
+    final letters = CalcsTools.getTotalHandsInLetters(letter);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Descripción de la letra'),
+        title: Text('Descripción de la letra ${letter.name}'),
       ),
-      body: Container(
-        width: double.infinity,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            _LetterDescriptionResumenCardLetter(
-              image: 'assets/logo.png',
-              type: 'Entrenamiento',
-              percentaje: 100,
-              date: '15 de mayo del 2022',
-              time: '13:15:55',
-            ),
-            _LetterDescriptionResumenCardLetter(
-              image: 'assets/logo.png',
-              type: 'Validación',
-              percentaje: 100,
-              date: '15 de mayo del 2022',
-              time: '13:15:55',
-            ),
-          ],
+      body: ListView.builder(
+        itemCount: letters.length,
+        itemBuilder: (context, index) => _LetterDescriptionCard(
+          letter: letters[index],
         ),
       ),
     );
   }
 }
 
-class _LetterDescriptionResumenCardLetter extends StatelessWidget {
-  final String image;
-  final String type;
-  final double percentaje;
-  final String date;
-  final String time;
-
-  const _LetterDescriptionResumenCardLetter({
-    Key? key,
-    required this.image,
-    required this.type,
-    required this.percentaje,
-    required this.date,
-    required this.time,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Container(
-        padding: const EdgeInsets.all(15),
-        child: Column(
-          children: [
-            Image(image: AssetImage(image), width: 100),
-            SizedBox(height: 10),
-            Text(
-              type,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-            ),
-            SizedBox(height: 10),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('$percentaje% terminado'),
-                Text('Fecha: $date'),
-                Text('Hora: $time'),
-              ],
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _LetterDescriptionContent extends StatelessWidget {
-  final Widget child;
-  const _LetterDescriptionContent({
-    Key? key,
-    required this.child,
-  }) : super(key: key);
+class _LetterDescriptionCard extends StatelessWidget {
+  LetterModel letter;
+  _LetterDescriptionCard({Key? key, required this.letter}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+      margin: EdgeInsets.only(bottom: 15),
       child: Card(
         child: Container(
-            padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-            child: child),
+          padding: EdgeInsets.all(10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text('Mano ${letter.hand}',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+              SizedBox(height: 10),
+              Text('Letra ${letter.name}',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+              SizedBox(height: 10),
+              Image(
+                image: AssetImage('assets/logo.png'),
+                width: 100,
+              ),
+              SizedBox(height: 10),
+              Text('Tipo: ${letter.type}',
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15)),
+              SizedBox(height: 10),
+              Text('Porcentaje: ${letter.percentage}%',
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15)),
+              SizedBox(height: 10),
+              Text('Fecha: ' + DateTools.getDate(letter.createdAt),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15)),
+              SizedBox(height: 10),
+              CustomButtonWidget(text: 'Finalizar registro', onPressed: (){}, color: AppTheme.secondaryColor)
+            ],
+          ),
+        ),
       ),
     );
   }

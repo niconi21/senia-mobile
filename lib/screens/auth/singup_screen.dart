@@ -46,6 +46,7 @@ class __SingUpFormState extends State<_SingUpForm> {
   @override
   Widget build(BuildContext context) {
     final formProvider = Provider.of<FormGeneralProvider>(context);
+    final userProvider = Provider.of<UserProvider>(context);
     return Form(
       key: formProvider.formKey,
       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -97,24 +98,30 @@ class __SingUpFormState extends State<_SingUpForm> {
             ),
             SizedBox(height: 15),
             CustomButtonWidget(
-              text: !formProvider.isLoading ? 'Registrarse' : 'Cancelar',
-              onPressed: !formProvider.isLoading
-                  ? () async {
-                      FocusScope.of(context).unfocus();
-                      if (!formProvider.isValidFrom()) return;
-                      if (!formProvider.isChecked) return;
-                      formProvider.isLoading = true;
-                      await Future.delayed(Duration(seconds: 5));
-                      formProvider.isLoading = false;
-                    }
-                  : () {
-                      formProvider.isLoading = false;
-                    },
-              color: !formProvider.isLoading
-                  ? AppTheme.accentColor
-                  : AppTheme.dangerColor,
-                  icon: Icons.create
-            ),
+                text: !formProvider.isLoading ? 'Registrarse' : 'Cancelar',
+                onPressed: !formProvider.isLoading
+                    ? () async {
+                        FocusScope.of(context).unfocus();
+                        if (!formProvider.isValidFrom()) return;
+                        if (!formProvider.isChecked) return;
+                        formProvider.isLoading = true;
+
+                        final resp = await userProvider.singup(
+                            formProvider.name, formProvider.email);
+                        if (resp.ok) {
+                          CustomAlerts.showAlert(context, resp.message, 'Bienvenido ${resp.result.user!.nombre}. Inicia sesión para acceder a todas las funcionalidades');
+                        } else {
+                          CustomAlerts.showAlert(context, resp.message, resp.error);
+                        }
+                        formProvider.isLoading = false;
+                      }
+                    : () {
+                        formProvider.isLoading = false;
+                      },
+                color: !formProvider.isLoading
+                    ? AppTheme.accentColor
+                    : AppTheme.dangerColor,
+                icon: Icons.create),
           ],
         ),
       ),

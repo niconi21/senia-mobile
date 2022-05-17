@@ -1,6 +1,5 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:senia_app/configs/app_routes.dart';
 import 'package:senia_app/configs/app_theme.dart';
 import 'package:senia_app/main.dart';
 import 'package:tflite/tflite.dart';

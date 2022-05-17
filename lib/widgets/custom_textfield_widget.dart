@@ -7,6 +7,7 @@ class CustomTextFliedWidget extends StatelessWidget {
   final void Function(String)? onChanged;
   final String? Function(String?)? validator;
   final TextInputType keyboardType;
+  final String intialValue;
   const CustomTextFliedWidget({
     Key? key,
     required this.labelText,
@@ -15,6 +16,7 @@ class CustomTextFliedWidget extends StatelessWidget {
     required this.enabled,
     required this.validator,
     required this.keyboardType,
+    this.intialValue = '',
   }) : super(key: key);
 
   @override
@@ -25,6 +27,7 @@ class CustomTextFliedWidget extends StatelessWidget {
       onChanged: onChanged,
       enabled: enabled,
       validator: validator,
+      initialValue: intialValue,
       
     );
   }
