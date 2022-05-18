@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:senia_app/configs/app_routes.dart';
 import 'package:senia_app/configs/app_theme.dart';
 import 'package:senia_app/models/models.dart';
+import 'package:senia_app/providers/providers.dart';
 import 'package:senia_app/tools/date_tools.dart';
 import 'package:senia_app/tools/tools.dart';
 import 'package:senia_app/widgets/custom_button_widget.dart';
@@ -10,17 +13,37 @@ class LetterDescriptionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final LetterModel letter =
+    final letterPrvider = Provider.of<LetterProvider>(context);
+    final LetterModel letterData =
         ModalRoute.of(context)?.settings.arguments as LetterModel;
-    final letters = CalcsTools.getTotalHandsInLetters(letter);
+    final lettersComplete = CalcsTools.getTotalHandsInLetters(letterData);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Descripción de la letra ${letter.name}'),
+        title: Text('Descripción de la letra ${letterData.name}'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              CustomAlerts.showOptoinAlert(
+                  context,
+                  '¿Seguro que desea eliminar este registro?',
+                  "Se eliminará por completo el registro de sus fotografías",
+                  'Eliminar registro', () {
+                lettersComplete.forEach((letter) {
+                  letterPrvider.deleteLetter(letter.id);
+                });
+                Navigator.pop(context);
+                Navigator.pop(context);
+              });
+            },
+            icon: Icon(Icons.delete_forever, color: AppTheme.dangerColor),
+            tooltip: 'Eliminar registro por completo',
+          )
+        ],
       ),
       body: ListView.builder(
-        itemCount: letters.length,
+        itemCount: lettersComplete.length,
         itemBuilder: (context, index) => _LetterDescriptionCard(
-          letter: letters[index],
+          letter: lettersComplete[index],
         ),
       ),
     );
@@ -62,7 +85,10 @@ class _LetterDescriptionCard extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15)),
               SizedBox(height: 10),
-              CustomButtonWidget(text: 'Finalizar registro', onPressed: (){}, color: AppTheme.secondaryColor)
+              CustomButtonWidget(
+                  text: 'Finalizar registro',
+                  onPressed: () {},
+                  color: AppTheme.secondaryColor)
             ],
           ),
         ),

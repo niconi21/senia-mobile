@@ -23,7 +23,7 @@ class LetterProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<ResponseModel> getLetter() async {
+  Future<ResponseModel> getLetters() async {
     final response = await http.get(
         HttpTools.getUri(AppEnviroment.URL_ENDPOINT_LETTER),
         headers: HttpTools.getHeaders(token: userProvider.token));
@@ -49,7 +49,20 @@ class LetterProvider extends ChangeNotifier {
     final resp = ResponseModel.fromJson(jsonDecode(response.body));
 
     if (resp.ok) {
-      this.getLetter();
+      this.getLetters();
+    }
+    return resp;
+  }
+
+  Future<ResponseModel> deleteLetter(String id) async {
+    final response = await http.delete(
+      HttpTools.getUri('${AppEnviroment.URL_ENDPOINT_LETTER}/$id'),
+      headers: HttpTools.getHeaders(token: userProvider.token),
+    );
+    final resp = ResponseModel.fromJson(jsonDecode(response.body));
+
+    if (resp.ok) {
+      this.getLetters();
     }
     return resp;
   }

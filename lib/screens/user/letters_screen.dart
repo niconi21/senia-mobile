@@ -16,7 +16,7 @@ class LetterScreen extends StatelessWidget {
 
     return RefreshIndicator(
       onRefresh: () {
-        return letterProvider.getLetter();
+        return letterProvider.getLetters();
       },
       child: ListView.builder(
         itemCount: letters.length,

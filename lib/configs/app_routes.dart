@@ -11,6 +11,7 @@ class AppRoutes {
     "lsm": MenuItemModel(route: 'lsm', widget: ReadLsmScreen()),
     "registerLetter": MenuItemModel(route: 'registerLetter', widget: RegisterLetterScreen()),
     "letterDescription": MenuItemModel(route: 'letterDescription', widget: LetterDescriptionScreen()),
+    "captureLetter": MenuItemModel(route: 'captureLetter', widget: CaptureLetterScreeen()),
   };
 
   static Map<String, Widget Function(BuildContext)> getRoutesApp() {

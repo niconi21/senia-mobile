@@ -76,12 +76,12 @@ class _LoginForm extends StatelessWidget {
                       // await Future.delayed(Duration(seconds: 2));
                       userProvider.login(formProvider.email).then((resp) {
                         if (resp.ok) {
-                          letterProvider.getLetter();
+                          letterProvider.getLetters();
                           print('letras');
                           Navigator.popAndPushNamed(
                               context, AppRoutes.routesApp['home']!.route);
                         } else {
-                          CustomAlerts.showAlert(
+                          CustomAlerts.showSimpleAlert(
                               context, 'Login Fallido', '${resp.message}');
                         }
                       }).whenComplete(() => formProvider.isLoading = false);

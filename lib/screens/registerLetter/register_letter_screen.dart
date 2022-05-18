@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:senia_app/configs/app_routes.dart';
 import 'package:senia_app/configs/app_theme.dart';
 import 'package:senia_app/models/letter_model.dart';
 import 'package:senia_app/providers/providers.dart';
+import 'package:senia_app/tools/alerts_tools.dart';
 import 'package:senia_app/tools/calcs_tools.dart';
 import 'package:senia_app/widgets/custom_button_widget.dart';
 
@@ -90,11 +92,15 @@ class _RegisterLetterConfirmation extends StatelessWidget {
                                   uiProvider.handSelected)
                               .then((resp) {
                             if (resp.ok) {
-                              print(resp.message);
+                              Navigator.pushNamed(context,
+                                  AppRoutes.routesApp['captureLetter']!.route,
+                                  arguments: uiProvider.letterSelected);
+                                  
                               uiProvider.letterSelected = LetterModel.empty();
                               uiProvider.handSelected = "";
                             } else {
-                              print(resp.message);
+                              CustomAlerts.showSimpleAlert(
+                                  context, resp.message, resp.error);
                             }
                           });
                         }
@@ -189,6 +195,7 @@ class _RegisterLetterContent extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
               height: height,
               child: ListView.builder(
+                
                 scrollDirection: Axis.horizontal,
                 itemBuilder: itemBuilder,
                 itemCount: itemCount,

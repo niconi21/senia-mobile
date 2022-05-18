@@ -126,10 +126,10 @@ class _ProfileForm extends StatelessWidget {
                         .updateUser(formProvider.name, formProvider.email)
                         .then((resp) {
                       if (resp.ok)
-                        CustomAlerts.showAlert(
+                        CustomAlerts.showSimpleAlert(
                             context, resp.message, 'Información actualizada');
                       else
-                        CustomAlerts.showAlert(
+                        CustomAlerts.showSimpleAlert(
                             context, resp.message, resp.error);
                     }).whenComplete(() => formProvider.isLoading = false);
                   }

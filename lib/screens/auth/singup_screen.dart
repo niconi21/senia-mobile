@@ -109,9 +109,9 @@ class __SingUpFormState extends State<_SingUpForm> {
                         final resp = await userProvider.singup(
                             formProvider.name, formProvider.email);
                         if (resp.ok) {
-                          CustomAlerts.showAlert(context, resp.message, 'Bienvenido ${resp.result.user!.nombre}. Inicia sesión para acceder a todas las funcionalidades');
+                          CustomAlerts.showSimpleAlert(context, resp.message, 'Bienvenido ${resp.result.user!.nombre}. Inicia sesión para acceder a todas las funcionalidades');
                         } else {
-                          CustomAlerts.showAlert(context, resp.message, resp.error);
+                          CustomAlerts.showSimpleAlert(context, resp.message, resp.error);
                         }
                         formProvider.isLoading = false;
                       }
