@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:senia_app/models/models.dart';
 
 class ResponseModel {
@@ -29,25 +27,31 @@ class ResponseModel {
 }
 
 class ResultModel {
-  ResultModel({this.token, this.user, List<LetterModel>? letters});
+  ResultModel({this.token, this.user, this.letters, this.letter});
 
   String? token;
   UserModel? user;
   List<LetterModel>? letters = [];
+  LetterModel? letter;
 
   factory ResultModel.fromJson(Map<String, dynamic> json) {
     final result = ResultModel(
-      token: json["token"] != null ? json["token"] : '',
-      user: json["user"] != null
-          ? UserModel.fromJson(json["user"])
-          : UserModel.empty(),
-    );
+        token: json["token"] != null ? json["token"] : '',
+        user: json["user"] != null
+            ? UserModel.fromJson(json["user"])
+            : UserModel.empty(),
+        letter: json['letter'] != null
+            ? LetterModel.fromJson(json['letter'])
+            : LetterModel.empty(),
+        letters: json['letters'] != null
+            ? List<LetterModel>.from(
+                json['letters'].map((x) => LetterModel.fromJson(x)))
+            : []);
 
-    if (json['letters'] != null) {
-      result.letters = List<LetterModel>.from(
-          json['letters'].map((x) => LetterModel.fromJson(x)));
-
-    }
+    // if (json['letters'] != null) {
+    //   result.letters = List<LetterModel>.from(
+    //       json['letters'].map((x) => LetterModel.fromJson(x)));
+    // }
     return result;
   }
 

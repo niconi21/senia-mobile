@@ -10,7 +10,7 @@ class AppTheme {
   static const Color accentColor = Color.fromARGB(255, 85, 73, 44);
   static const Color white = Color.fromARGB(255, 255, 255, 255);
 
-  static const Color selectedColor = Color.fromARGB(255, 13, 41, 46);
+  static const Color selectedColor = Color.fromARGB(150,11,132,58);
   static const Color unselectedColor = Color.fromARGB(255, 72, 73, 73);
   static const Color backgroundColor = Color.fromARGB(255, 254, 240, 203);
 

@@ -1,3 +1,4 @@
+import 'package:senia_app/configs/app_enviromets.dart';
 import 'package:senia_app/models/models.dart';
 
 class CalcsTools {
@@ -23,7 +24,7 @@ class CalcsTools {
     return letters;
   }
 
-  static List<LetterModel> getLetters(List<LetterModel> letters) {
+  static List<LetterModel> getLettersUser(List<LetterModel> letters) {
     List<LetterModel> lettersSeparated = [];
 
     letters.forEach((letter) {
@@ -32,5 +33,43 @@ class CalcsTools {
     });
 
     return lettersSeparated;
+  }
+
+  static List<LetterModel> getLetterForRegister(List<LetterModel> letters) {
+    final lettersUser = getLettersUser(letters);
+    final lettersApp = getLettersApp();
+    lettersUser.forEach((letterUser) {
+      final index = lettersApp.indexWhere((letterApp) =>
+          letterApp.name == letterUser.name &&
+          letterApp.hand == letterUser.hand);
+      if (index != -1) {
+        lettersApp.removeAt(index);
+      }
+    });
+
+    final Map<String, LetterModel> lettersAux = {};
+
+    lettersApp.forEach((letter) {
+      if (!lettersAux.containsKey(letter.name)) {
+        lettersAux.addAll({letter.name: LetterModel.name(name: letter.name)});
+      }
+      lettersAux[letter.name]!.hands.add(letter);
+    });
+
+    return List<LetterModel>.from(lettersAux.values);
+  }
+
+  static List<LetterModel> getLettersApp() {
+    final List<LetterModel> letters = [];
+    AppEnviroment.LETTERS.forEach((letter) {
+      AppEnviroment.HANDS_LETTER.forEach((hand) {
+        letters.add(LetterModel.nameAndHand(
+          name: letter,
+          hand: hand,
+        ));
+      });
+    });
+
+    return letters;
   }
 }

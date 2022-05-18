@@ -34,4 +34,23 @@ class LetterProvider extends ChangeNotifier {
     }
     return resp;
   }
+
+  Future<ResponseModel> createLetter(LetterModel letter, String hand) async {
+    final response =
+        await http.post(HttpTools.getUri(AppEnviroment.URL_ENDPOINT_LETTER),
+            headers: HttpTools.getHeaders(token: userProvider.token),
+            body: HttpTools.jsonEncode({
+              "letter": {
+                "name": letter.name,
+                "hand": hand,
+                "type": "Entrenamiento",
+              }
+            }));
+    final resp = ResponseModel.fromJson(jsonDecode(response.body));
+
+    if (resp.ok) {
+      this.getLetter();
+    }
+    return resp;
+  }
 }

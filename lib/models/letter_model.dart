@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:senia_app/models/models.dart';
 
 class LetterModel {
@@ -12,7 +10,6 @@ class LetterModel {
   List<ImageModel> images;
   List<LetterModel> types;
   List<LetterModel> hands;
-
   UserModel user = UserModel.empty();
   LetterModel({
     required this.id,
@@ -49,4 +46,37 @@ class LetterModel {
                 json['hands'].map((x) => LetterModel.fromJson(x)))
             : [],
       );
+
+  factory LetterModel.empty() => LetterModel(
+      id: 'Sin ID',
+      name: '',
+      type: 'Sin tipo',
+      hand: 'Sin mano',
+      percentage: 0,
+      createdAt: DateTime.now(),
+      images: [],
+      types: [],
+      hands: []);
+
+  factory LetterModel.name({required String name}) => LetterModel(
+      id: 'Sin ID',
+      name: name,
+      type: 'Sin tipo',
+      hand: 'Sin mano',
+      percentage: 0,
+      createdAt: DateTime.now(),
+      images: [],
+      types: [],
+      hands: []);
+
+  factory LetterModel.nameAndHand({required String name, required String hand}) => LetterModel(
+      id: 'Sin ID',
+      name: name,
+      type: 'Sin tipo',
+      hand: hand,
+      percentage: 0,
+      createdAt: DateTime.now(),
+      images: [],
+      types: [],
+      hands: []);
 }
