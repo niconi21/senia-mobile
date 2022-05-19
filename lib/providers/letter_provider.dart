@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -24,46 +25,61 @@ class LetterProvider extends ChangeNotifier {
   }
 
   Future<ResponseModel> getLetters() async {
-    final response = await http.get(
-        HttpTools.getUri(AppEnviroment.URL_ENDPOINT_LETTER),
-        headers: HttpTools.getHeaders(token: userProvider.token));
-    final resp = ResponseModel.fromJson(jsonDecode(response.body));
+    try {
+      final response = await http.get(
+          HttpTools.getUri(AppEnviroment.URL_ENDPOINT_LETTER),
+          headers: HttpTools.getHeaders(token: userProvider.token));
+      final resp = ResponseModel.fromJson(jsonDecode(response.body));
 
-    if (resp.ok) {
-      this.letters = resp.result.letters!;
+      if (resp.ok) {
+        this.letters = resp.result.letters!;
+      }
+      return resp;
+    } on SocketException {
+      print('no internet');
+      return HttpTools.univiableServer;
     }
-    return resp;
   }
 
   Future<ResponseModel> createLetter(LetterModel letter, String hand) async {
-    final response =
-        await http.post(HttpTools.getUri(AppEnviroment.URL_ENDPOINT_LETTER),
-            headers: HttpTools.getHeaders(token: userProvider.token),
-            body: HttpTools.jsonEncode({
-              "letter": {
-                "name": letter.name,
-                "hand": hand,
-                "type": "Entrenamiento",
-              }
-            }));
-    final resp = ResponseModel.fromJson(jsonDecode(response.body));
+    try {
+      final response =
+          await http.post(HttpTools.getUri(AppEnviroment.URL_ENDPOINT_LETTER),
+              headers: HttpTools.getHeaders(token: userProvider.token),
+              body: HttpTools.jsonEncode({
+                "letter": {
+                  "name": letter.name,
+                  "hand": hand,
+                  "type": "Entrenamiento",
+                }
+              }));
+      final resp = ResponseModel.fromJson(jsonDecode(response.body));
 
-    if (resp.ok) {
-      this.getLetters();
+      if (resp.ok) {
+        this.getLetters();
+      }
+      return resp;
+    } on SocketException {
+      print('no internet');
+      return HttpTools.univiableServer;
     }
-    return resp;
   }
 
   Future<ResponseModel> deleteLetter(String id) async {
-    final response = await http.delete(
-      HttpTools.getUri('${AppEnviroment.URL_ENDPOINT_LETTER}/$id'),
-      headers: HttpTools.getHeaders(token: userProvider.token),
-    );
-    final resp = ResponseModel.fromJson(jsonDecode(response.body));
+    try {
+      final response = await http.delete(
+        HttpTools.getUri('${AppEnviroment.URL_ENDPOINT_LETTER}/$id'),
+        headers: HttpTools.getHeaders(token: userProvider.token),
+      );
+      final resp = ResponseModel.fromJson(jsonDecode(response.body));
 
-    if (resp.ok) {
-      this.getLetters();
+      if (resp.ok) {
+        this.getLetters();
+      }
+      return resp;
+    } on SocketException {
+      print('no internet');
+      return HttpTools.univiableServer;
     }
-    return resp;
   }
 }

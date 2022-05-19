@@ -50,9 +50,15 @@ class _ProfileLogOut extends StatelessWidget {
         text: 'Cerrar sesión',
         onPressed: !formProvider.isLoading
             ? () {
-                userProvider.logout();
-                Navigator.popAndPushNamed(
-                    context, AppRoutes.routesApp['auth']!.route);
+                CustomAlerts.showOptoinAlert(
+                    context,
+                    '¿Seguro que desea cerrar sesión?',
+                    'Se cerrará la sesión en este dispositivo',
+                    'Cerrar sesión', () {
+                  userProvider.logout();
+                  Navigator.popAndPushNamed(
+                      context, AppRoutes.routesApp['auth']!.route);
+                });
               }
             : null,
         color: !formProvider.isLoading
@@ -115,8 +121,9 @@ class _ProfileForm extends StatelessWidget {
             'Última actualización el: ${DateTools.getDate(userProvider.user.updatedAt)}'),
         SizedBox(height: 15),
         CustomButtonWidget(
-            text:
-                !formProvider.isLoading ? 'Actualizar información' : 'Cargando...',
+            text: !formProvider.isLoading
+                ? 'Actualizar información'
+                : 'Cargando...',
             onPressed: !formProvider.isLoading
                 ? () {
                     FocusScope.of(context).unfocus();
@@ -172,10 +179,23 @@ class _ProfileDeleteAccount extends StatelessWidget {
           text: 'Eliminar Cuenta',
           onPressed: !formProvider.isLoading
               ? () {
-                  userProvider.deleteAccount().then((resp) {
-                    Navigator.popAndPushNamed(
-                        context, AppRoutes.routesApp['auth']!.route);
-                  }).whenComplete(() {});
+                  CustomAlerts.showOptoinAlert(
+                      context,
+                      '¿Seguro que desea eliminar su cuenta?',
+                      "Se eliminarán toda la informaicón relacionada con su cuenta, por lo que no podrá ser recuperada",
+                      "Eliminar cuenta", () {
+                    userProvider.deleteAccount().then((resp) {
+                      if (resp.ok) {
+                        Navigator.popAndPushNamed(
+                            context, AppRoutes.routesApp['auth']!.route);
+                        CustomAlerts.showSimpleAlert(context, resp.message,
+                            'Se ha borrado su información del sistema');
+                      } else {
+                        CustomAlerts.showSimpleAlert(
+                            context, resp.message, resp.error);
+                      }
+                    });
+                  });
                 }
               : null,
           color: !formProvider.isLoading

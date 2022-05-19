@@ -16,7 +16,13 @@ class LetterScreen extends StatelessWidget {
 
     return RefreshIndicator(
       onRefresh: () {
-        return letterProvider.getLetters();
+        final respFuture = letterProvider.getLetters();
+        respFuture.then((resp) {
+          if (!resp.ok) {
+            CustomAlerts.showSimpleAlert(context, resp.message, resp.error);
+          } 
+        });
+        return respFuture;
       },
       child: ListView.builder(
         itemCount: letters.length,

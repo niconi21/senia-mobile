@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -22,56 +23,77 @@ class UserProvider extends ChangeNotifier {
   }
 
   Future<ResponseModel> login(String email) async {
-    final response = await http.post(
-        HttpTools.getUri('${AppEnviroment.URL_ENDPOINT_AUTH}/login'),
-        headers: HttpTools.getHeaders(),
-        body: HttpTools.jsonEncode({
-          'user': {'correo': email}
-        }));
-    final resp = ResponseModel.fromJson(jsonDecode(response.body));
-    if (resp.ok) {
-      this.user = resp.result.user!;
-      this.token = resp.result.token!;
+    try {
+      final response = await http.post(
+          HttpTools.getUri('${AppEnviroment.URL_ENDPOINT_AUTH}/login'),
+          headers: HttpTools.getHeaders(),
+          body: HttpTools.jsonEncode({
+            'user': {'correo': email}
+          }));
+      print(response.body);
+      final resp = ResponseModel.fromJson(jsonDecode(response.body));
+      if (resp.ok) {
+        this.user = resp.result.user!;
+        this.token = resp.result.token!;
+      }
+      return resp;
+    } on SocketException {
+      print('no internet');
+      return HttpTools.univiableServer;
     }
-    return resp;
+
   }
 
   Future<ResponseModel> singup(String name, String email) async {
-    final response = await http.post(
-        HttpTools.getUri('${AppEnviroment.URL_ENDPOINT_AUTH}/registro'),
-        headers: HttpTools.getHeaders(),
-        body: HttpTools.jsonEncode({
-          'user': {'nombre': name, 'correo': email}
-        }));
-    final resp = ResponseModel.fromJson(jsonDecode(response.body));
-    return resp;
+    try {
+      final response = await http.post(
+          HttpTools.getUri('${AppEnviroment.URL_ENDPOINT_AUTH}/registro'),
+          headers: HttpTools.getHeaders(),
+          body: HttpTools.jsonEncode({
+            'user': {'nombre': name, 'correo': email}
+          }));
+      final resp = ResponseModel.fromJson(jsonDecode(response.body));
+      return resp;
+    } on SocketException {
+      print('no internet');
+      return HttpTools.univiableServer;
+    }
   }
 
   Future<ResponseModel> updateUser(String name, String email) async {
-    final response =
-        await http.put(HttpTools.getUri('${AppEnviroment.URL_ENDPOINT_USER}/'),
-            headers: HttpTools.getHeaders(token: this.token),
-            body: HttpTools.jsonEncode({
-              'user': {'correo': email, 'nombre': name}
-            }));
+    try {
+      final response = await http.put(
+          HttpTools.getUri('${AppEnviroment.URL_ENDPOINT_USER}/'),
+          headers: HttpTools.getHeaders(token: this.token),
+          body: HttpTools.jsonEncode({
+            'user': {'correo': email, 'nombre': name}
+          }));
 
-    print(response.body);
-    final resp = ResponseModel.fromJson(jsonDecode(response.body));
+      final resp = ResponseModel.fromJson(jsonDecode(response.body));
 
-    if (resp.ok) {
-      this.user = resp.result.user!;
+      if (resp.ok) {
+        this.user = resp.result.user!;
+      }
+      return resp;
+    } on SocketException {
+      print('no internet');
+      return HttpTools.univiableServer;
     }
-    return resp;
   }
 
   Future<ResponseModel> deleteAccount() async {
-    final response = await http.delete(
-      HttpTools.getUri(AppEnviroment.URL_ENDPOINT_USER),
-      headers: HttpTools.getHeaders(token: this._token),
-    );
-    final resp = ResponseModel.fromJson(jsonDecode(response.body));
-    logout();
-    return resp;
+    try {
+      final response = await http.delete(
+        HttpTools.getUri(AppEnviroment.URL_ENDPOINT_USER),
+        headers: HttpTools.getHeaders(token: this._token),
+      );
+      final resp = ResponseModel.fromJson(jsonDecode(response.body));
+      logout();
+      return resp;
+    } on SocketException {
+      print('no internet');
+      return HttpTools.univiableServer;
+    }
   }
 
   void logout() {
