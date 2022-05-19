@@ -1,5 +1,5 @@
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:camera/camera.dart';
 import 'package:provider/provider.dart';
 import 'package:senia_app/configs/app_theme.dart';
 import 'package:senia_app/providers/providers.dart';
@@ -21,12 +21,15 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => UiProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (context) => LetterProvider(context: context)),
+        ChangeNotifierProvider(create: (context) => ImagenProvider(context: context)),
+        
       ],
       child: MaterialApp(
         title: 'Señia',
         routes: AppRoutes.getRoutesApp(),
         initialRoute: AppRoutes.initialRoute,
         theme: AppTheme.theme,
+        
       ),
     );
   }

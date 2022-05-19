@@ -3,7 +3,7 @@ import 'package:senia_app/configs/app_enviromets.dart';
 import 'package:senia_app/models/models.dart';
 
 class HttpTools {
-  static Map<String, String> getHeaders({String token = ''}) {
+  static Map<String, String> getHeaders({String token = '', contentType = "application/json"}) {
     return {"Content-Type": "application/json", "token": token};
   }
 
