@@ -15,7 +15,7 @@ class HttpTools {
   }
 
   static Uri getUri(String path) =>
-      Uri.http(AppEnviroment.URL, '${AppEnviroment.URL_PREENDPOINT}/$path');
+      Uri.https(AppEnviroment.URL, '${AppEnviroment.URL_PREENDPOINT}/$path');
 
   static String jsonEncode(Object value) => json.encode(value);
 

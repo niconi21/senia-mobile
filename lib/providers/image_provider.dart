@@ -32,7 +32,7 @@ class ImagenProvider extends ChangeNotifier {
         ),
       });
       final response = await dio.post(
-          'http://${AppEnviroment.URL}${AppEnviroment.URL_PREENDPOINT}/${AppEnviroment.URL_ENDPOINT_IMAGE}/$letterId',
+          'https://${AppEnviroment.URL}${AppEnviroment.URL_PREENDPOINT}/${AppEnviroment.URL_ENDPOINT_IMAGE}/$letterId',
           data: formData,
           options: Options(
               contentType: "application/json",
