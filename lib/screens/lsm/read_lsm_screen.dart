@@ -27,7 +27,6 @@ class _ReadLsmScreenState extends State<ReadLsmScreen> {
   @override
   void dispose() async {
     _closeActivity();
-    print('cerrando lsm');
     super.dispose();
   }
 
@@ -66,7 +65,7 @@ class _ReadLsmScreenState extends State<ReadLsmScreen> {
         result = '';
 
         reconigtions?.forEach((response) {
-          result = response['label'] + ' - ' ;
+          result = response['label'] + ' - ';
         });
         setState(() {});
         isWorking = false;
@@ -81,9 +80,7 @@ class _ReadLsmScreenState extends State<ReadLsmScreen> {
           labels: 'assets/labels.txt',
           isAsset: true,
           useGpuDelegate: true);
-    } catch (e) {
-      print(1);
-    }
+    } catch (e) {}
   }
 
   _closeActivity() async {

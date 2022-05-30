@@ -40,4 +40,11 @@ class UiProvider extends ChangeNotifier {
     this._handSelected = value;
     notifyListeners();
   }
+
+  LetterModel _letterRegister = LetterModel.empty();
+  LetterModel get letterRegister => _letterRegister;
+  set letterRegister(LetterModel value) {
+    _letterRegister = value;
+    notifyListeners();
+  }
 }

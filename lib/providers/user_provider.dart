@@ -30,7 +30,6 @@ class UserProvider extends ChangeNotifier {
           body: HttpTools.jsonEncode({
             'user': {'correo': email}
           }));
-      print(response.body);
       final resp = ResponseModel.fromJson(jsonDecode(response.body));
       if (resp.ok) {
         this.user = resp.result.user!;
@@ -38,10 +37,8 @@ class UserProvider extends ChangeNotifier {
       }
       return resp;
     } on SocketException {
-      print('no internet');
       return HttpTools.univiableServer;
     }
-
   }
 
   Future<ResponseModel> singup(String name, String email) async {
@@ -55,7 +52,6 @@ class UserProvider extends ChangeNotifier {
       final resp = ResponseModel.fromJson(jsonDecode(response.body));
       return resp;
     } on SocketException {
-      print('no internet');
       return HttpTools.univiableServer;
     }
   }
@@ -76,7 +72,6 @@ class UserProvider extends ChangeNotifier {
       }
       return resp;
     } on SocketException {
-      print('no internet');
       return HttpTools.univiableServer;
     }
   }
@@ -91,7 +86,6 @@ class UserProvider extends ChangeNotifier {
       logout();
       return resp;
     } on SocketException {
-      print('no internet');
       return HttpTools.univiableServer;
     }
   }

@@ -1,8 +1,13 @@
+import 'dart:convert';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:senia_app/configs/configs.dart';
 import 'package:senia_app/main.dart';
 import 'package:senia_app/models/models.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:senia_app/providers/image_provider.dart';
+import 'package:senia_app/providers/providers.dart';
 
 class CaptureLetterScreeen extends StatefulWidget {
   CaptureLetterScreeen({Key? key}) : super(key: key);
@@ -17,6 +22,8 @@ class _CaptureLetterScreeenState extends State<CaptureLetterScreeen> {
   bool _isLoading = false;
   bool _flashOn = false; // 0 Apagado - 1 Encendido
   int _numCamera = 0;
+  double _progressImages = 0;
+  LetterModel letter = LetterModel.empty();
   @override
   void initState() {
     super.initState();
@@ -43,82 +50,118 @@ class _CaptureLetterScreeenState extends State<CaptureLetterScreeen> {
 
   @override
   Widget build(BuildContext context) {
-    final LetterModel letter =
-        ModalRoute.of(context)?.settings.arguments as LetterModel;
+    final imageProvider = Provider.of<ImagenProvider>(context);
+    final uiProvider = Provider.of<UiProvider>(context);
+
+    letter = uiProvider.letterRegister;
+    this._progressImages = letter.percentage;
+
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Capturando letra - ${letter.name}'),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: _CaptureLetterFloatingsActionsButtons(
-          isLoading: _isLoading,
-          flashOn: _flashOn,
-          onPressedCapture: () async {
-            setState(() {
-              this._isLoading = true;
-            });
-            try {
+      appBar: AppBar(
+        title: Text('Capturando letra - ${letter.name}'),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: _CaptureLetterFloatingsActionsButtons(
+        isLoading: _isLoading,
+        flashOn: _flashOn,
+        onPressedCapture: () async {
+          setState(() {
+            this._isLoading = true;
+          });
+          try {
+            if (true) {
               await _initializeControllerFuture;
               await _controller.setFocusMode(FocusMode.auto);
               final image = await _controller.takePicture();
-              print(await image.length());
-              setState(() {
-                this._isLoading = false;
-              });
-            } catch (e) {
-              final ex = e as CameraException;
-              print(ex.toString());
-            }
-          },
-          onPressedChange: () async {
-            await _controller.dispose();
-            _numCamera = _numCamera == 0 ? 1 : 0;
-            setState(() {
-              _initCamera(numCamera: _numCamera);
-            });
-          },
-          onPressedFlash: () async {
-            _flashOn = !_flashOn;
 
-            await _controller
-                .setFlashMode(!_flashOn ? FlashMode.torch : FlashMode.off);
-            setState(() {});
-          },
-        ),
-        body: FutureBuilder(
-          future: _initializeControllerFuture,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              _controller.setFlashMode(FlashMode.off);
-              return SingleChildScrollView(
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text('Progreso: 50%'),
-                      SizedBox(height: 10),
-                      LinearProgressIndicator(
-                        minHeight: 10,
-                        value: 0.5,
-                      ),
-                      SizedBox(height: 10),
-                      Container(
-                        width: double.infinity,
-                        child: CameraPreview(_controller),
-                      )
-                    ],
-                  ),
-                ),
-              );
-            } else {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
+              final resp = await imageProvider.loadImage(letter.id, image.path);
+              if (resp.ok) {
+                setState(() {
+                  uiProvider.letterRegister = resp.result.letter!;
+                  // this._progressImages = resp.result.letter!.percentage;
+                });
+              }
             }
-          },
-        ));
+
+            setState(() {
+              this._isLoading = false;
+            });
+          } on CameraException catch (cameraErr) {
+            print(cameraErr);
+            setState(() {
+              this._isLoading = false;
+            });
+          } on FormatException catch (formatErr) {
+            print(formatErr);
+            setState(() {
+              this._isLoading = false;
+            });
+          }
+          ;
+          // } catch (e) {
+          //   final ex = e as CameraException;
+          // }
+        },
+        onPressedChange: () async {
+          await _controller.dispose();
+          _numCamera = _numCamera == 0 ? 1 : 0;
+          setState(() {
+            _initCamera(numCamera: _numCamera);
+          });
+        },
+        onPressedFlash: () async {
+          _flashOn = !_flashOn;
+
+          await _controller
+              .setFlashMode(!_flashOn ? FlashMode.torch : FlashMode.off);
+          setState(() {});
+        },
+      ),
+      body: FutureBuilder(
+        future: _initializeControllerFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done &&
+              letter.percentage != 100) {
+            _controller.setFlashMode(FlashMode.off);
+            return SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text('Progreso: $_progressImages%'),
+                    SizedBox(height: 10),
+                    LinearProgressIndicator(
+                      minHeight: 10,
+                      value: _progressImages / 100,
+                    ),
+                    SizedBox(height: 10),
+                    Container(
+                      width: double.infinity,
+                      child: CameraPreview(_controller),
+                    )
+                  ],
+                ),
+              ),
+            );
+          } else {
+            if (letter.percentage == 100) {
+              cerrarTodo(context);
+            }
+
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
+    );
+  }
+
+  void cerrarTodo(BuildContext context) async {
+    await _controller.dispose();
+    Navigator.popAndPushNamed(context, AppRoutes.routesApp['home']!.route);
   }
 }
 

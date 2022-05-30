@@ -77,7 +77,6 @@ class _LoginForm extends StatelessWidget {
                       userProvider.login(formProvider.email).then((resp) {
                         if (resp.ok) {
                           letterProvider.getLetters();
-                          print('letras');
                           Navigator.popAndPushNamed(
                               context, AppRoutes.routesApp['home']!.route);
                         } else {

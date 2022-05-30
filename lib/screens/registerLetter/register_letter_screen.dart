@@ -92,10 +92,10 @@ class _RegisterLetterConfirmation extends StatelessWidget {
                                   uiProvider.handSelected)
                               .then((resp) {
                             if (resp.ok) {
+                              uiProvider.letterRegister = resp.result.letter!;
                               Navigator.pushNamed(context,
-                                  AppRoutes.routesApp['captureLetter']!.route,
-                                  arguments: uiProvider.letterSelected);
-                                  
+                                  AppRoutes.routesApp['captureLetter']!.route);
+
                               uiProvider.letterSelected = LetterModel.empty();
                               uiProvider.handSelected = "";
                             } else {
@@ -195,7 +195,6 @@ class _RegisterLetterContent extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
               height: height,
               child: ListView.builder(
-                
                 scrollDirection: Axis.horizontal,
                 itemBuilder: itemBuilder,
                 itemCount: itemCount,

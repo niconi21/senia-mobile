@@ -56,6 +56,7 @@ class _LetterDescriptionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final uiProvider = Provider.of<UiProvider>(context);
     return Container(
       margin: EdgeInsets.only(bottom: 15),
       child: Card(
@@ -85,10 +86,16 @@ class _LetterDescriptionCard extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15)),
               SizedBox(height: 10),
-              CustomButtonWidget(
-                  text: 'Finalizar registro',
-                  onPressed: () {},
-                  color: AppTheme.secondaryColor)
+              letter.percentage < 100
+                  ? CustomButtonWidget(
+                      text: 'Finalizar registro',
+                      onPressed: () {
+                        uiProvider.letterRegister = letter;
+                        Navigator.pushNamed(context,
+                            AppRoutes.routesApp['captureLetter']!.route);
+                      },
+                      color: AppTheme.secondaryColor)
+                  : SizedBox()
             ],
           ),
         ),

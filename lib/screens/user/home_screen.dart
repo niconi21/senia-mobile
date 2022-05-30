@@ -12,7 +12,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final uiProvider = Provider.of<UiProvider>(context);
-    
+
     return Scaffold(
       appBar: AppBar(
         title: Text(uiProvider.homePageName),
@@ -36,7 +36,8 @@ class _HomeFloatingActionsButtons extends StatelessWidget {
       children: [
         FloatingActionButton(
           heroTag: 'RegisterLetter',
-          onPressed: () => Navigator.pushNamed(context, AppRoutes.routesApp['registerLetter']!.route),
+          onPressed: () => Navigator.pushNamed(
+              context, AppRoutes.routesApp['registerLetter']!.route),
           child: Icon(Icons.add_a_photo),
           tooltip: "Agregar datos",
           backgroundColor: AppTheme.unselectedColor,
@@ -46,7 +47,8 @@ class _HomeFloatingActionsButtons extends StatelessWidget {
         ),
         FloatingActionButton(
           heroTag: 'ReadLsm',
-          onPressed: () => Navigator.pushNamed(context, AppRoutes.routesApp['lsm']!.route),
+          onPressed: () =>
+              Navigator.pushNamed(context, AppRoutes.routesApp['lsm']!.route),
           child: Icon(Icons.camera),
           tooltip: "Leer Lenguaje de Señas",
           backgroundColor: AppTheme.secondaryColor,

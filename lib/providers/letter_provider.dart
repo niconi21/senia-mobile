@@ -36,7 +36,6 @@ class LetterProvider extends ChangeNotifier {
       }
       return resp;
     } on SocketException {
-      print('no internet');
       return HttpTools.univiableServer;
     }
   }
@@ -60,7 +59,6 @@ class LetterProvider extends ChangeNotifier {
       }
       return resp;
     } on SocketException {
-      print('no internet');
       return HttpTools.univiableServer;
     }
   }
@@ -78,7 +76,6 @@ class LetterProvider extends ChangeNotifier {
       }
       return resp;
     } on SocketException {
-      print('no internet');
       return HttpTools.univiableServer;
     }
   }
