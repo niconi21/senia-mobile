@@ -18,6 +18,7 @@ class CalcsTools {
     List<LetterModel> letters = [];
     letter.hands.forEach((hand) {
       hand.types.forEach((type) {
+        type.image = letter.image;
         letters.add(type);
       });
     });
@@ -51,7 +52,9 @@ class CalcsTools {
 
     lettersApp.forEach((letter) {
       if (!lettersAux.containsKey(letter.name)) {
-        lettersAux.addAll({letter.name: LetterModel.name(name: letter.name)});
+        lettersAux.addAll({
+          letter.name: LetterModel.name(name: letter.name, image: letter.image)
+        });
       }
       lettersAux[letter.name]!.hands.add(letter);
     });
@@ -64,9 +67,9 @@ class CalcsTools {
     AppEnviroment.LETTERS.forEach((letter) {
       AppEnviroment.HANDS_LETTER.forEach((hand) {
         letters.add(LetterModel.nameAndHand(
-          name: letter,
-          hand: hand,
-        ));
+            name: letter,
+            hand: hand,
+            image: '${AppEnviroment.PATH_IMAGES_LETTERS}/$letter.png'));
       });
     });
 

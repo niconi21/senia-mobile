@@ -72,7 +72,7 @@ class _LetterDescriptionCard extends StatelessWidget {
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
               SizedBox(height: 10),
               Image(
-                image: AssetImage('assets/logo.png'),
+                image: AssetImage(letter.image),
                 width: 100,
               ),
               SizedBox(height: 10),

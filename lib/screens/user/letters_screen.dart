@@ -20,7 +20,7 @@ class LetterScreen extends StatelessWidget {
         respFuture.then((resp) {
           if (!resp.ok) {
             CustomAlerts.showSimpleAlert(context, resp.message, resp.error);
-          } 
+          }
         });
         return respFuture;
       },
@@ -52,7 +52,7 @@ class _ItemListLetter extends StatelessWidget {
           contentPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
           minVerticalPadding: 10,
           leading: Image(
-            image: AssetImage('assets/logo.png'),
+            image: AssetImage(letter.image),
           ),
           trailing: Icon(Icons.keyboard_arrow_right),
           title: Text(

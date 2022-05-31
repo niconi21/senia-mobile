@@ -154,11 +154,12 @@ class _RegisterLetterSelectionLetter extends StatelessWidget {
     final uiProvider = Provider.of<UiProvider>(context);
     return _RegisterLetterContent(
       title: 'Escoger letra',
-      height: 220,
+      height: 250,
       itemCount: letters.length,
       itemBuilder: (_, index) => _RegisterLetterCard(
           title: 'letra',
           letter: letters[index].name,
+          image: letters[index].image,
           onPressed: () {
             uiProvider.letterSelected = letters[index];
           }),
@@ -236,15 +237,10 @@ class _RegisterLetterCard extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
             SizedBox(height: 10),
-            letter.length == 1 || letter.length == 2
-                ? Text(
-                    letter,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 50),
-                  )
-                : Image(
-                    image: AssetImage(image),
-                    width: 100,
-                  ),
+            Image(
+              image: AssetImage(image),
+              width: 100,
+            ),
             SizedBox(height: 10),
             CustomButtonWidget(
                 text: 'Seleccionar',

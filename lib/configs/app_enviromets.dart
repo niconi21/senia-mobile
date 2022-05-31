@@ -12,6 +12,7 @@ class AppEnviroment {
 
   static const List<String> HANDS_LETTER = ["Izquierda", "Derecha"];
   static const List<String> TYPES_LETTERS = ["Entrenamiento", "Validación"];
+  static const String PATH_IMAGES_LETTERS = 'assets/letters';
   static const List<String> LETTERS = [
     "A",
     "B",
@@ -25,15 +26,15 @@ class AppEnviroment {
     "J",
     "K",
     "L",
-    "LL",
+    // "LL",
     "M",
     "N",
-    "Ñ",
+    // "Ñ",
     "O",
     "P",
     "Q",
     "R",
-    "RR",
+    // "RR",
     "S",
     "T",
     "U",

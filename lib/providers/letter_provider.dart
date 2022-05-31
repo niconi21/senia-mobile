@@ -33,6 +33,10 @@ class LetterProvider extends ChangeNotifier {
 
       if (resp.ok) {
         this.letters = resp.result.letters!;
+        this.letters.forEach((letter) {
+          letter.image =
+              '${AppEnviroment.PATH_IMAGES_LETTERS}/${letter.name}.png';
+        });
       }
       return resp;
     } on SocketException {
