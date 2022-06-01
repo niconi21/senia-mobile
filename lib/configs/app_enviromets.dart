@@ -2,7 +2,7 @@ class AppEnviroment {
   // static const String URL = '192.168.43.180:3000';
   // static const String URL = '192.168.1.73:3000';
   // static const String URL = '10.42.0.1:3000';
-  static const String URL = 'senia.ga:3000';
+  static const String URL = 'senia.ga';
 
   static const String URL_PREENDPOINT = '/api/v1';
   static const String URL_ENDPOINT_AUTH = 'auth';
