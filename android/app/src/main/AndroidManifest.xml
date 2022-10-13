@@ -2,7 +2,7 @@
     package="com.example.senia_app">
    <application
    
-        android:label="senia_app"
+        android:label="Senia"
         android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
@@ -39,4 +39,5 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
+    <uses-permission android:name="android.permission.INTERNET"/>
 </manifest>
