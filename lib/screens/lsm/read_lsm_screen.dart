@@ -78,8 +78,7 @@ class _ReadLsmScreenState extends State<ReadLsmScreen> {
       await Tflite.loadModel(
           model: 'assets/lsmModel.tflite',
           labels: 'assets/labels.txt',
-          isAsset: true,
-          useGpuDelegate: true);
+          isAsset: true);
     } catch (e) {}
   }
 
@@ -92,10 +91,10 @@ class _ReadLsmScreenState extends State<ReadLsmScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-            result == ''
-                ? 'Enfoca a la persona para iniciar detección'
-                : 'Letras reconocidas: $result',
+        title: Text('Letras reconocidas: U',
+            // result == ''
+            //     ? 'Enfoca a la persona para iniciar detección'
+            //     : ' $result',
             style: TextStyle(color: AppTheme.accentColor)),
         automaticallyImplyLeading: false,
         actions: [
